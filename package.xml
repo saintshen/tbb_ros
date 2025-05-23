@@ -2,10 +2,12 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>tbb_ros</name>
-  <version>0.0.0</version>
+  <version>0.0.1</version>
   <description>Tennis Ball Boy</description>
-  <maintainer email="saintshen@gmail.com">ming</maintainer>
-  <license>TODO: License declaration</license>
+  <maintainer email="saintshen@gmail.com">Ming Shen</maintainer>
+  <license>Apache-2.0</license>
+  <url>https://github.com/saintshen/tbb_ros.git</url>
+  <author email="saintshen@gmail.com">Ming Shen</author>
 
   <buildtool_depend>ament_cmake_python</buildtool_depend>
 
@@ -15,6 +17,7 @@
 
   <exec_depend>demo_nodes_cpp</exec_depend>
   <exec_depend>demo_nodes_py</exec_depend>
+  <exec_depend>urdf_launch</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
