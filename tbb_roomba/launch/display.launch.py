@@ -7,7 +7,7 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     ld = LaunchDescription()
 
-    tbb_ros_path = FindPackageShare('tbb_ros')
+    tbb_ros_path = FindPackageShare('tbb_roomba')
     default_model_path = PathJoinSubstitution(['urdf', 'create_1.urdf'])
     default_rviz_config_path = PathJoinSubstitution([tbb_ros_path, 'rviz', 'urdf.rviz'])
 
@@ -26,7 +26,7 @@ def generate_launch_description():
     ld.add_action(IncludeLaunchDescription(
         PathJoinSubstitution([FindPackageShare('urdf_launch'), 'launch', 'display.launch.py']),
         launch_arguments={
-            'urdf_package': 'tbb_ros',
+            'urdf_package': 'tbb_roomba',
             'urdf_package_path': LaunchConfiguration('model'),
             'rviz_config': LaunchConfiguration('rvizconfig'),
             'jsp_gui': LaunchConfiguration('gui')}.items()
