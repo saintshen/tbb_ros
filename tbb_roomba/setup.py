@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'tbb_roomba_node = tbb_roomba.tbb_roomba_node:main',
+            'service = tbb_roomba.service:main',
         ],
     },
 )
