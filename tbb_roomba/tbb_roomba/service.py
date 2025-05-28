@@ -1,7 +1,7 @@
 from irobot_create_msgs.srv import EStop
 import rclpy
 from rclpy.node import Node
-from pycreate2 import Create2
+from .pycreate2.create2api import Create2
 
 class RoombaService(Node):
     def __init__(self):

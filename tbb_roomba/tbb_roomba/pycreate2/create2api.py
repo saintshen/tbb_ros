@@ -7,10 +7,9 @@
 
 import struct  # there are 2 places that use this ... why?
 import time
-from tbb_roomba.tbb_roomba.pycreate2.packets import SensorPacketDecoder
-from tbb_roomba.tbb_roomba.pycreate2.createSerial import SerialCommandInterface
-from tbb_roomba.tbb_roomba.pycreate2.OI import OPCODES
-from tbb_roomba.tbb_roomba.pycreate2.OI import DRIVE
+from .packets import SensorPacketDecoder
+from .createSerial import SerialCommandInterface
+from .OI import OPCODES,DRIVE
 
 
 class Create2(object):
