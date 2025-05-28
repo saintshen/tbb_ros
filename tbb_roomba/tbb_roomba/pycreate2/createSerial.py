@@ -39,22 +39,27 @@ class SerialCommandInterface(object):
         port: the serial port to open, ie, '/dev/ttyUSB0'
         buad: default is 115200, but can be changed to a lower rate via the create api
         """
-        self.ser.port = port
-        self.ser.baudrate = baud
-        self.ser.timeout = timeout
-        # print self.ser.name
-        if self.ser.is_open:
-            self.ser.close()
-        self.ser.open()
-        if self.ser.is_open:
-            # print("Create opened serial: {}".format(self.ser))
-            print('-'*40)
-            print(' Create opened serial connection')
-            print('   port: {}'.format(self.ser.port))
-            print('   datarate: {} bps'.format(self.ser.baudrate))
-            print('-'*40)
-        else:
-            raise Exception('Failed to open {} at {}'.format(port, baud))
+        try:
+            self.ser.port = port
+            self.ser.baudrate = baud
+            self.ser.timeout = timeout
+            if self.ser.is_open:
+                self.ser.close()
+            self.ser.open()
+            if self.ser.is_open:
+                print('-'*40)
+                print(' Create opened serial connection')
+                print('   port: {}'.format(self.ser.port))
+                print('   datarate: {} bps'.format(self.ser.baudrate))
+                print('-'*40)
+            else:
+                raise Exception('Failed to open {} at {}'.format(port, baud))
+        except serial.SerialException as e:
+            print(f"SerialException: {e}")
+            raise
+        except Exception as e:
+            print(f"Exception opening serial port: {e}")
+            raise
 
     def write(self, opcode, data=None):
         """
@@ -66,12 +71,19 @@ class SerialCommandInterface(object):
         """
         msg = (opcode,)
 
-        # Sometimes opcodes don't need data. Since we can't add
-        # a None type to a tuple, we have to make this check.
         if data:
             msg += data
-        # print(">> write:", msg)
-        self.ser.write(struct.pack('B' * len(msg), *msg))
+        try:
+            self.ser.write(struct.pack('B' * len(msg), *msg))
+        except serial.SerialTimeoutException as e:
+            print(f"SerialTimeoutException during write: {e}")
+            raise
+        except serial.SerialException as e:
+            print(f"SerialException during write: {e}")
+            raise
+        except Exception as e:
+            print(f"Exception during write: {e}")
+            raise
 
     def read(self, num_bytes):
         """
@@ -83,14 +95,28 @@ class SerialCommandInterface(object):
         if not self.ser.is_open:
             raise Exception('You must open the serial port first')
 
-        data = self.ser.read(num_bytes)
-
-        return data
+        try:
+            data = self.ser.read(num_bytes)
+            return data
+        except serial.SerialTimeoutException as e:
+            print(f"SerialTimeoutException during read: {e}")
+            raise
+        except serial.SerialException as e:
+            print(f"SerialException during read: {e}")
+            raise
+        except Exception as e:
+            print(f"Exception during read: {e}")
+            raise
 
     def close(self):
         """
         Closes the serial connection.
         """
-        if self.ser.is_open:
-            print('Closing port {} @ {}'.format(self.ser.port, self.ser.baudrate))
-            self.ser.close()
+        try:
+            if self.ser.is_open:
+                print('Closing port {} @ {}'.format(self.ser.port, self.ser.baudrate))
+                self.ser.close()
+        except serial.SerialException as e:
+            print(f"SerialException during close: {e}")
+        except Exception as e:
+            print(f"Exception during close: {e}")
