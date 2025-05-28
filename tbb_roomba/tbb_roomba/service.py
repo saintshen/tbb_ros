@@ -1,4 +1,4 @@
-from irobot_create_msgs import EStop
+from irobot_create_msgs.srv import EStop
 import rclpy
 from rclpy.node import Node
 from pycreate2 import Create2
